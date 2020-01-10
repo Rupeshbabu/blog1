@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import blog
 
 
 # Create your views here.
-class HomeView(ListView):
+class HomeView(LoginRequiredMixin, ListView):
     model = blog
     template_name = 'index.html'
     context_object_name = "blogs"
@@ -12,12 +13,12 @@ class HomeView(ListView):
     paginate_by = 3
 
 
-class BlogView(DetailView):
+class BlogView(LoginRequiredMixin, DetailView):
     model = blog
     template_name = 'single_post.html'
 
 
-class CreateBlogView(CreateView):
+class CreateBlogView(LoginRequiredMixin, CreateView):
     model = blog
     template_name = 'create_blog.html'
     fields = ['title', 'content']
